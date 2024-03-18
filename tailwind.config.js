@@ -6,7 +6,9 @@ export default {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      display: ['group-hover']
+    },
   },
   plugins: [],
 }
