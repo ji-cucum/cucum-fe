@@ -1,47 +1,104 @@
 <template>
-  <div id="player" class="hidden"></div>
   <div>
-    <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-    <div class="relative">
-        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-            </svg>
+    <div v-if="videoId" id="player" class="hidden"></div>
+    <div>
+        <div v-if="playerLoaded">
+            <div class="text-[2rem]">
+                <img v-if="videoId" :src="`https://img.youtube.com/vi/${videoId}/0.jpg`" alt="thumbnail" class="rounded-lg" />
+                <div>
+                    {{ videoData.title }}
+                </div>
+                <div class="text-[3rem]">
+                {{ currentMinute + ":" + String(currentSecond).padStart(2, '0') }}
+                </div>
+            </div>
+            <div>
+            <CucumRangeHorizontal :value="currentTime / duration * 100" />
+            </div>
+            <div class="flex gap-2">
+                <button @click="player.playVideo()">
+                <IconPlay />
+                </button>
+                <button @click="player.pauseVideo()">
+                <IconPause />
+                </button>
+                <button @click="player.stopVideo()">
+                <IconStop />
+                </button>
+                <button @click="player.seekTo(0)">
+                <IconRefresh />
+                </button>
+                <button @click="player.mute()">
+                <IconMute />
+                </button>
+                <button @click="player.unMute()">
+                <IconUnMute />
+                </button>
+            </div>
         </div>
-        <input type="search" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required  v-model="videoId" value="bKeU99EygzY" />
+
     </div>
-  </div>
-  <div class="flex gap-2">
-    <button @click="player.playVideo()">Play</button>
-    <button @click="player.pauseVideo()">Pause</button>
-    <button @click="player.stopVideo()">Stop</button>
-    <button @click="player.seekTo(0)">Restart</button>
-    <button @click="player.mute()">mute</button>
-    <button @click="player.unMute()">unmute</button>
-  </div>
-  <div>
-   duration : {{ duration }} / {{ currentTime }}
   </div>
 </template>
 <script>
+import { nextTick } from 'vue';
+import CucumRangeHorizontal from './CucumRangeHorizontal.vue';
+import {
+  IconPlay,
+  IconPause,
+  IconStop,
+  IconRefresh,
+  IconMute,
+  IconUnMute
+} from './icons/index.js'
 export default {
   name: 'CucumMusicPlayer',
+  components: {
+    IconPlay,
+    IconPause,
+    IconStop,
+    IconRefresh,
+    IconMute,
+    IconUnMute,
+    CucumRangeHorizontal
+  },
+  props: {
+    videoId: {
+      type: String,
+      default: 'bKeU99EygzY'
+    }
+  },
   data() {
     return {
       player: null,
-      videoId: 'bKeU99EygzY'
+      duration: 0,
+      currentTime: 0,
+      isActive: false,
+      playerLoaded: false,
+      videoData: null
+    }
+  },
+  watch: {
+    videoId() {
+      if (this.player) {
+        this.player.destroy();
+      }
+      this.createPlayer();
     }
   },
   computed: {
-    duration() {
-      if (this.player) {
-        console.log(this.player)
-      }
+    durationValue() {
       return this.player ? this.player.getDuration() : 0;
     },
-    currentTime() {
+    currentTimeValue() {
       return this.player ? this.player.getCurrentTime() : 0;
-    }
+    },
+    currentMinute() {
+      return Math.floor(this.currentTime / 60);
+    },
+    currentSecond() {
+      return Math.floor(this.currentTime % 60);
+    },
   },
   mounted() {
     const tag = document.createElement('script');
@@ -51,23 +108,49 @@ export default {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     window.onYouTubeIframeAPIReady = () => {
-      this.player = new window.YT.Player('player', {
+      this.createPlayer();
+    };
+
+    nextTick(() => {
+    });
+  },
+    methods: {
+      createPlayer() {
+        const self = this;
+
+        this.player = new window.YT.Player('player', {
         height: '240',
         width: '360',
         videoId: this.videoId,
         events: {
-          onReady: this.onPlayerReady,
-          onStateChange: this.onPlayerStateChange
+            onReady: this.onPlayerReady,
+            onStateChange: this.onPlayerStateChange
         }
-      });
-    };
-  },
-    methods: {
+        });
+        setInterval(function(){
+            const p = self.player;
+            if (!p || !p.getCurrentTime || !p.getDuration) return;
+            self.currentTime = self.player?.getCurrentTime();
+            self.duration = self.player?.getDuration();
+        }, 1000);
+      },
+      setVideoInfo() {
+        if (this.player?.playerInfo?.videoData?.title) {
+            this.playerLoaded = true;
+            this.videoData = this.player.playerInfo.videoData;
+        } else { 
+            this.playerLoaded = false;
+            this.videoData = null;
+        }
+        this.duration = this.durationValue;
+      },
       onPlayerReady(event) {
-        event.target.playVideo();
+        // auto play
+        // event.target.playVideo();
+        this.setVideoInfo()
       },
       onPlayerStateChange(event) {
-        console.log(event.data);
+        this.setVideoInfo()
       }
     }
 }
