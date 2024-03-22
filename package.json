@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "proxy": "http://localhost:5500",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,6 +12,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.21"
