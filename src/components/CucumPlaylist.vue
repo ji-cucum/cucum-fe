@@ -43,12 +43,16 @@
 <script>
 import CucumModal from '@/components/CucumModal.vue';
 import CucumMusicPlayer from './CucumMusicPlayer.vue';
+import { getAllPlaylists } from '@/services/playlist'
 export default {
   components: {
     CucumModal,
     CucumMusicPlayer
   },
   name: 'CucumPlaylist',
+  async mounted() {
+    this.playlists = await getAllPlaylists()
+  },
   methods: {
     addPlaylist(form) {
       const formData = Object.fromEntries(new FormData(form))
@@ -57,6 +61,7 @@ export default {
         creator: 'cucum',
         createdAt: new Date().toISOString().split('T')[0]
       })
+      console.log(formData)
       form.reset()
     }
   },
