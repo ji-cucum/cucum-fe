@@ -14,8 +14,8 @@ export const getPlaylist = async (id) => {
   return response.data;
 }
 
-export const createPlaylist = async () => {
-  const response = await playlist.post('/');
+export const createPlaylist = async (params) => {
+  const response = await playlist.post('/', params);
   return response.data;
 }
 

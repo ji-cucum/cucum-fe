@@ -25,8 +25,16 @@
         <div :key="i" v-for="(playlist,i) of playlists" class="group">
           <button type="button" class="flex items-center justify-between w-full bg-gray-800 p-4 rounded-lg">
             <div class="flex flex-col justify-start items-start">
-              <div>{{ playlist.name }}</div>
-              <div>{{ playlist.creator }}</div>
+              <div class="flex">
+                <div>
+                  <img :src="playlist.thumbnail" alt="playlist" class="w-20 h-20 rounded-full" />
+                </div>
+                <div>
+                <div>{{ playlist.name }}</div>
+                <div>{{ playlist.description }} </div>
+                <div>{{ playlist.creator }}</div>
+                </div>
+              </div>
             </div>
             <div class="hidden group-hover:block bg-gray-600 rounded-full p-2">
               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -43,7 +51,7 @@
 <script>
 import CucumModal from '@/components/CucumModal.vue';
 import CucumMusicPlayer from './CucumMusicPlayer.vue';
-import { getAllPlaylists } from '@/services/playlist'
+import { getAllPlaylists, createPlaylist } from '@/services/playlist'
 export default {
   components: {
     CucumModal,
@@ -54,14 +62,14 @@ export default {
     this.playlists = await getAllPlaylists()
   },
   methods: {
-    addPlaylist(form) {
+    async addPlaylist(form) {
       const formData = Object.fromEntries(new FormData(form))
-      this.playlists.push({
+      console.log(formData)
+      const newPlaylist =  await createPlaylist({
         ...formData,
         creator: 'cucum',
-        createdAt: new Date().toISOString().split('T')[0]
       })
-      console.log(formData)
+      this.playlists.push(newPlaylist)
       form.reset()
     }
   },
