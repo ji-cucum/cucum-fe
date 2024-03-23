@@ -4,8 +4,12 @@ const playlist = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/playlist`,
 })
 
-export const getAllPlaylists = async () => {
-  const response = await playlist.get('/');
+export const getAllPlaylists = async (params) => {
+  const response = await playlist.post('/', params, {
+    headers: {
+      'Content-Type': 'application/json' 
+    }
+  });
   return response.data;
 }
 
