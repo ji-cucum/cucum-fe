@@ -84,7 +84,6 @@ import {
   IconPlay,
   IconPause,
   IconStop,
-  IconRefresh,
   IconMute,
   IconUnMute
 } from './icons/index.js'
@@ -94,7 +93,6 @@ export default {
     IconPlay,
     IconPause,
     IconStop,
-    IconRefresh,
     IconMute,
     IconUnMute,
     CucumRangeHorizontal
@@ -181,12 +179,12 @@ export default {
         }
         this.duration = this.durationValue;
       },
-      onPlayerReady(event) {
+      onPlayerReady() {
         // auto play
         // event.target.playVideo();
         this.setVideoInfo()
       },
-      onPlayerStateChange(event) {
+      onPlayerStateChange() {
         this.setVideoInfo()
       }
     }
