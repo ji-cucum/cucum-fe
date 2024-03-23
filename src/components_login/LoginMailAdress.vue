@@ -3,17 +3,17 @@
 </script>
 
 <template>
-<form @submit="handleSubmit" class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col justify-center sm:py-12">
+<form @submit.prevent="handlesubmit" class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col justify-center sm:py-12">
   <div class="relative py-3 sm:max-w-xl mx-auto text-center">
     <span class="text-2xl font-light">ログイン</span>
     <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left">
       <div class="h-2 bg-indigo-400 rounded-t-md"></div>
       <div class="py-6 px-5">
         <label class="block font-semibold">メールアドレス</label>
-        <input type="text" placeholder="Email" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
+        <input type="text" placeholder="Email" v-model="email" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <label class="block mt-3 font-semibold">パスワード</label>
-        <input type="password" placeholder="Password" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
-        <div class="flex justify-between items-base line">
+        <input type="password" placeholder="Password" v-model="password" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
+        <div class="flex justify-between items-baseline">
           <button class="mt-4 bg-indigo-500 text-white py-2 px-6 rounded-lg">ログイン</button>
           <a href="#" class="text-sm hover:underline pl-5">Forgot password?</a>
         </div>
@@ -27,11 +27,23 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default{
     name:'Login',
+    data() {
+      return{
+        email:'',
+        password: ''
+      }
+    },
     methods:{
-      handleSubmit(){
-        console.log('submitted');  
+      async handlesubmit(){
+        const response = await axios.post('users/login_mailAdress', {
+          email: this.email,
+          password: this.password
+        });
+
+        localStorage.setItem('token', response.data.token);
       }
     }
   }
