@@ -10,13 +10,13 @@
       <div class="h-2 bg-indigo-400 rounded-t-md"></div>
       <div class="py-6 px-5">
         <label class="block font-semibold">お名前</label>
-        <input type="text" placeholder="Name" v-model="name" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
+        <input type="text" placeholder="Name" v-model="state.name" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <label class="block mt-3 font-semibold">メールアドレス</label>
-        <input type="email" placeholder="Email" v-model="email" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
+        <input type="email" placeholder="Email" v-model="state.email" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <label class="block mt-3 font-semibold">パスワード</label>
-        <input type="password" placeholder="Password" v-model="password" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
+        <input type="password" placeholder="Password" v-model="state.password" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <label class="block mt-3 font-semibold">パスワード（確認用）</label>
-        <input type="password" placeholder="Password_Confirm" v-model="password_confirm" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
+        <input type="password" placeholder="Password_Confirm" v-model="state.password_confirm" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <div class="flex justify-between items-baseline">
           <button class="mt-4 bg-indigo-500 text-white py-2 px-6 rounded-lg">登録</button>
           <router-link to="/login_googleAccount">
@@ -29,31 +29,25 @@
 </form>
 </template>
 
-<script>
+<script setup>
+  import {ref} from "vue"
+  import router from "vue-router"
   import axios from 'axios'
-  export default{
-    name: 'Register',
-    data(){
-      return{
-        name: '',
-        email:'', 
-        password:'',
-        password_confirm:''
+  const state = ref({
+    name: '',
+    email:'', 
+    password:'',
+    password_confirm:''
+  })
+  async function handleSubmit(){
+    await axios.post('users/register_mailAdress', {
+      name: state.value.name,
+      email: state.value.email,
+      password: state.value.password,
+      password_confirm: state.value.password_confirm
+    });
 
-      }
-    },
-    methods: {
-      async handleSubmit(){
-        await axios.post('users/register_mailAdress', {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          password_confirm: this.password_confirm
-        });
-
-        this.$router.push('/login_mailAdress');
-      }
-    }
+    router.push('/login_mailAdress');
   }
 </script>
 

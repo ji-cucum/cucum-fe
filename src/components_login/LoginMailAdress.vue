@@ -1,9 +1,5 @@
-<script setup>
-
-</script>
-
 <template>
-<form @submit.prevent="handlesubmit" class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col justify-center sm:py-12">
+<form @submit.prevent="hanldeSubmit" class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col justify-center sm:py-12">
   <div class="relative py-3 sm:max-w-xl mx-auto text-center">
     <span class="text-2xl font-light">ログイン</span>
     <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left">
@@ -26,26 +22,19 @@
 </form>
 </template>
 
-<script>
+<script setup>
+  import {ref} from "vue"
   import axios from 'axios'
-  export default{
-    name:'Login',
-    data() {
-      return{
-        email:'',
-        password: ''
-      }
-    },
-    methods:{
-      async handlesubmit(){
-        const response = await axios.post('users/login_mailAdress', {
-          email: this.email,
-          password: this.password
-        });
+  const email = ref('')
+  const password = ref('')
 
-        localStorage.setItem('token', response.data.token);
-      }
-    }
+  async function hanldeSubmit(){
+    const response = await axios.post('users/login_mailAdress', {
+      email: email.value,
+      password: password.value
+    });
+
+    localStorage.setItem('token', response.data.token);
   }
 </script>
 

@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
 <!--
   Welcome to Tailwind Play, the official Tailwind CSS playground!
