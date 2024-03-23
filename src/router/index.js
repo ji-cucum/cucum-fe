@@ -1,14 +1,16 @@
 import{ createRouter, createWebHistory } from "vue-router";
 
-import LoginTop from '../components_login/LoginTop.vue';
-import LoginMailAdress from '../components_login/LoginMailAdress.vue';
-import RegisterTop from '../components_login/RegisterTop.vue';
-import RegisterMailAdress from '../components_login/RegisterMailAdress.vue';
+import CucumMain from '../views/CucumMain.vue'
+import LoginTop from '../components_session/LoginTop.vue';
+import LoginMailAdress from '../components_session/LoginMailAdress.vue';
+import RegisterTop from '../components_session/RegisterTop.vue';
+import RegisterMailAdress from '../components_session/RegisterMailAdress.vue';
 
 const routes = [
-  { path: '/login_googleAccount', component: LoginTop},
+  { path: '/', component: CucumMain},
+  { path: '/login', component: LoginTop},
   { path: '/login_mailAdress', component: LoginMailAdress},
-  { path: '/register_googleAccount', component:RegisterTop},
+  { path: '/register', component:RegisterTop},
   { path: '/register_mailAdress', component: RegisterMailAdress},
 ];
 

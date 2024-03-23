@@ -1,25 +1,31 @@
 <template>
-  <div id="app"> 
-    <NavComponent />
-    <router-view></router-view>
-  </div>
+    <CucumNavi />
+  <main class=" dark flex flex-col items-center h-screen" >
+    <div class="w-[375px]">
+      <RouterView />
+    </div>
+  </main>
 </template>
 
-<script setup>
-import NavComponent from './components_login/NavComponent.vue'
-</script>
-<style>
-html {
-    margin: 0px;
-    height: 100%;
-    width: 100%;
- }
+<script>
+import CucumNavi from './components_session/CucumNavi.vue';
+export default {
+  name: 'App',
+  components: {
+    CucumNavi,
+  },
+  mounted(){
+    const isLoggedIn = async()=>{
+      console.log('check2')
+      const res = await fetch("/api/without-auth/is-logged-in").then(r=>r.json())
+      console.log("is logged in" , res)
+      if(!res.success){
+        this.$router.push("/login")
+      }
+    }
+    isLoggedIn()
+  }
+}
 
- body {
-    margin: 0px;
-    min-height: 100%;
-    width: 100%;
-    background-color: white;
-    color: white;
- }
-</style>
+
+</script>

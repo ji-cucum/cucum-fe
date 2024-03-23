@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
 <form @submit.prevent="handleSubmit" class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col justify-center sm:py-12">
   <div class="relative py-3 sm:max-w-xl mx-auto text-center">
@@ -19,7 +15,7 @@
         <input type="password" placeholder="Password_Confirm" v-model="state.password_confirm" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <div class="flex justify-between items-baseline">
           <button class="mt-4 bg-indigo-500 text-white py-2 px-6 rounded-lg">登録</button>
-          <router-link to="/login_googleAccount">
+          <router-link to="/login">
             <a href="#" class="text-sm hover:underline">ログインはこちら</a>
           </router-link> 
         </div>
@@ -31,8 +27,9 @@
 
 <script setup>
   import {ref} from "vue"
-  import router from "vue-router"
+  import {useRouter} from "vue-router"
   import axios from 'axios'
+  const router = useRouter()
   const state = ref({
     name: '',
     email:'', 

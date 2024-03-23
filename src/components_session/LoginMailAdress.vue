@@ -4,7 +4,7 @@
     <span class="text-2xl font-light">ログイン</span>
     <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left">
       <div class="h-2 bg-indigo-400 rounded-t-md"></div>
-      <div class="py-6 px-5">
+      <div class="py-6 px-6">
         <label class="block font-semibold">メールアドレス</label>
         <input type="text" placeholder="Email" v-model="email" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <label class="block mt-3 font-semibold">パスワード</label>
@@ -14,8 +14,8 @@
           <a href="#" class="text-sm hover:underline pl-5">Forgot password?</a>
         </div>
         <div class="flex justify-center">
-          <router-link to="/register_googleAccount" class="mt-4 text-indigo-500 border border-indigo-500 bg-white py-2 px-6 rounded-lg">新規登録はこちら</router-link>
-        </div>        
+          <router-link to="/register" class="mt-4 text-indigo-500 border border-indigo-500 bg-white py-2 px-6 rounded-lg">新規登録はこちら</router-link>
+        </div>
       </div>
     </div>
   </div>
