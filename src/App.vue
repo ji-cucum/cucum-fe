@@ -17,7 +17,9 @@ export default {
   mounted(){
     const isLoggedIn = async()=>{
       console.log('check2')
-      const res = await fetch("/api/without-auth/is-logged-in").then(r=>r.json())
+      const res = await fetch("/public-api/is-logged-in", {
+        credentials: "include",
+      }).then(r=>r.json())
       console.log("is logged in" , res)
       if(!res.success){
         this.$router.push("/login")

@@ -12,7 +12,8 @@ export default defineConfig({
   ],
   server:{
     proxy:{
-      "/api":"http://localhost:3011"
+      "/api":"http://localhost:3011",
+      "/public-api": "http://localhost:3011"
     }
   },
   resolve: {
