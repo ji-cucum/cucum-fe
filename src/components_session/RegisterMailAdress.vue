@@ -93,14 +93,18 @@ async function handleSubmit() {
         password: state.value.password,
         password_confirm: state.value.password_confirm
       })
+      
+      alert('会員登録が完了しました。ログインをお願いします。');
 
       console.log(response.data)
 
       router.push('/login-mailAdress')
+      
     } catch (error) {
       if (error.response && error.response.status === 500) {
         // 에러가 발생하면 errors 배열에 해당 에러 메시지를 추가
         errors.value.push({ message: error.response.data.errors[0].message });
+        state.value = "";
       } else {
         console.error('Registration failed:', error)
       }
