@@ -9,9 +9,9 @@ import RegisterMailAdress from '../components_session/RegisterMailAdress.vue';
 const routes = [
   { path: '/', component: CucumMain},
   { path: '/login', component: LoginTop},
-  { path: '/login_mailAdress', component: LoginMailAdress},
+  { path: '/login-mailAdress', component: LoginMailAdress},
   { path: '/register', component:RegisterTop},
-  { path: '/register_mailAdress', component: RegisterMailAdress},
+  { path: '/register-mailAdress', component: RegisterMailAdress},
 ];
 
 const router = createRouter({

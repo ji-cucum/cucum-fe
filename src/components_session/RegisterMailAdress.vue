@@ -5,6 +5,11 @@
     <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left">
       <div class="h-2 bg-indigo-400 rounded-t-md"></div>
       <div class="py-6 px-5">
+        <div v-if="errors && errors.length > 0" class="mb-4 text-center">
+            <ul class="text-red-500">
+              <li v-for="(error, index) in errors" :key="index">{{ error.message }}</li>
+            </ul>
+          </div>
         <label class="block font-semibold">お名前</label>
         <input type="text" placeholder="Name" v-model="state.name" class=" border w-full h-5 px-3 py-4 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md">
         <label class="block mt-3 font-semibold">メールアドレス</label>
@@ -36,15 +41,44 @@
     password:'',
     password_confirm:''
   })
-  async function handleSubmit(){
-    await axios.post('users/register_mailAdress', {
-      name: state.value.name,
-      email: state.value.email,
-      password: state.value.password,
-      password_confirm: state.value.password_confirm
-    });
 
-    router.push('/login_mailAdress');
+  const errors = ref([])
+
+  async function handleSubmit(){
+    const { name, email, password, password_confirm } = state.value;
+
+    // 유효성 검사
+    errors.value = [];
+
+    if (!name || !email || !password || !password_confirm) {
+      errors.value.push({ message: "全項目入力必須です" });
+    }
+
+    if (password.length < 6) {
+      errors.value.push({ message: "パスワードは６文字以上が必要です" });
+    }
+
+    if (password !== password_confirm) {
+      errors.value.push({ message: "パスワードが一致しません" });
+    }
+
+    if (errors.value.length === 0) {
+      try {
+          const response = await axios.post('api/register-mailAdress', {
+          name: state.value.name,
+          email: state.value.email,
+          password: state.value.password,
+          password_confirm: state.value.password_confirm
+          });
+
+          console.log(response.data);
+
+          router.push('/login-mailAdress');
+
+        } catch (error) {
+          console.error("Registration failed:", error);
+        }
+    }
   }
 </script>
 
