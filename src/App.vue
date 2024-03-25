@@ -21,13 +21,11 @@ export default {
         credentials: "include",
       }).then(r=>r.json())
       console.log("is logged in" , res)
-      if(!res.success){
+      if(!res.loggedIn){
         this.$router.push("/login")
       }
     }
     isLoggedIn()
   }
 }
-
-
 </script>
