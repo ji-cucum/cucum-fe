@@ -9,7 +9,7 @@
         <div class="py-6 px-6">
           <div class="flex items-center justify-center">
             <button
-              @click="registerWithGoogle" class="flex-grow px-11 py-2 border flex gap-2 border-slate-500 rounded-lg text-black hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+             @click="handleGoogleLogin" class="flex-grow px-11 py-2 border flex gap-2 border-slate-500 rounded-lg text-black hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
             >
               <div class="flex items-center">
                 <img
@@ -44,15 +44,21 @@
 import axios from 'axios'
 
 // Google 등록 버튼 클릭 시 실행되는 함수
-async function registerWithGoogle() {
+const handleGoogleLogin = () => {
+  openGoogleLoginWindow();
+  registerWithGoogle();
+}
+
+const openGoogleLoginWindow = () => {
+  window.open('http://localhost:5173/auth/google', '_blank');
+}
+
+const registerWithGoogle = async () => {
   try {
-    // '/api/register-googleAccount' 엔드포인트로 POST 요청을 보냅니다.
-    const response = await axios.post('/api/register-googleAccount')
-    // 요청이 성공했을 경우에 대한 처리를 진행합니다.
-    console.log(response.data) // 서버에서 받은 응답을 로그에 출력하거나 다른 처리를 합니다.
+    const response = await axios.post('/api/register-googleAccount');
+    console.log(response.data);
   } catch (error) {
-    // 요청이 실패했을 경우에 대한 처리를 진행합니다.
-    console.error('Failed to register with Google:', error)
+    console.error('Failed to register with Google:', error);
   }
 }
 </script>
