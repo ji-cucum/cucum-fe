@@ -27,8 +27,8 @@ export default  {
     methods: {
         async fetchPagingData() {
             this.paging.showLoader = true;
-            setTimeout(() => {
-                this.paging.fetchCallback();
+            setTimeout(async() => {
+                await this.paging.fetchCallback();
                 this.paging.showLoader = false;
             }, 1000);
         },
