@@ -12,7 +12,6 @@
               <input type="search" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required v-model="videoId" value="" />
           </div>
       </div>
-      <CucumMusicPlayer :video-id="videoId" />
     </div>
     <div class="flex flex-col gap-8">
       <div>
@@ -24,23 +23,25 @@
 
       <div class="flex flex-col gap-2 h-90 overflow-y-scroll">
         <div :key="i" v-for="(playlist,i) of playlists" class="group">
-          <button type="button" class="flex items-center justify-between w-full bg-gray-800 p-4 rounded-lg">
-            <div class="flex flex-col justify-start items-start">
-              <div class="flex">
-                <div>
+          <button type="button" class="flex items-center justify-between w-full bg-gray-800 p-4 rounded-lg relative">
+            <div class="flex flex-col w-full justify-between items-start">
+              <div class="flex w-full">
+                <div class="w-1/3 flex items-center">
                   <img :src="playlist.thumbnail" alt="playlist" class="w-20 h-20 rounded-full" />
                 </div>
-                <div>
-                <div>{{ playlist.name }}</div>
-                <div>{{ playlist.description }} </div>
-                <div>{{ playlist.creator }}</div>
+                <div class="flex flex-col text-left w-2/3 items-start justify-center">
+                  <div class=" font-bold text-2xl text-ellipsis text-nowrap overflow-hidden w-60">{{ playlist.name }}</div>
+                  <div class="text-gray-500 text-ellipsis text-nowrap overflow-hidden w-60">{{ playlist.description }} </div>
+                  <div class="text-gray-500 text-ellipsis text-nowrap overflow-hidden w-60">{{ playlist.creator }}</div>
                 </div>
               </div>
             </div>
-            <div class="hidden group-hover:block bg-gray-600 rounded-full p-2">
-              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
-              </svg>
+            <div class="absolute hidden group-hover:block top-0 left-0 w-full h-full z-50 bg-indigo-500 bg-opacity-25 p-4">
+              <div class="bg-gray-600 rounded-full p-2 w-20 h-20 flex justify-center items-center">
+                <svg class="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
+                </svg>
+              </div>
             </div>
           </button>
         </div>
@@ -61,14 +62,12 @@
 </template>
 <script>
 import CucumModal from '@/components/CucumModal.vue';
-import CucumMusicPlayer from './CucumMusicPlayer.vue';
 import { getAllPlaylists, createPlaylist } from '@/services/playlist'
 import pagingMixin from '@/mixins/pagingMixin';
 
 export default {
   components: {
     CucumModal,
-    CucumMusicPlayer
   },
   name: 'CucumPlaylist',
   mixins: [pagingMixin],
