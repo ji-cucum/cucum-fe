@@ -8,8 +8,8 @@
         <div class="h-2 bg-indigo-400 rounded-t-md"></div>
         <div class="py-6 px-6">
           <div class="flex items-center justify-center">
-            <a href="/auth/google" @click="loginWithGoogle">
-              <button
+            <a href="/auth/google">
+              <button @click="loginWithGoogle"
                 class="flex-grow px-11 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-black hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
               >
                 <div class="flex items-center">
@@ -42,28 +42,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-
-const router = useRouter();
-const loginWithGoogle = async() => {
-  try{
-    const response = await axios.get("/auth/google/callback");
-    if(response.data.success){
-      console.log(response.data)
-      router.push("/")
-    } else {
-
-      alert(response.data.message);
-    }
-  } catch (error) {
-    console.error("ログインに失敗しました。", error);
-    //ログイン失敗の処理
-    alert("ログインに失敗しました。")
-  }
-};
-
-
 </script>
 
 <style></style>
