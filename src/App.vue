@@ -1,18 +1,31 @@
-
 <template>
+    <CucumNavi />
   <main class=" dark flex flex-col items-center h-screen" >
     <div class="w-[375px]">
-      <CucumMain />
+      <RouterView />
     </div>
   </main>
-</template>./components/Playlist.vue
+</template>
 
 <script>
+import CucumNavi from './components_session/CucumNavi.vue';
 export default {
   name: 'App',
   components: {
-    CucumMain,
+    CucumNavi,
   },
+  mounted(){
+    const isLoggedIn = async()=>{
+      console.log('check2')
+      const res = await fetch("/public-api/is-logged-in", {
+        credentials: "include",
+      }).then(r=>r.json())
+      console.log("is logged in" , res)
+      if(!res.loggedIn){
+        this.$router.push("/login")
+      }
+    }
+    isLoggedIn()
+  }
 }
-import CucumMain from './views/CucumMain.vue';
 </script>
