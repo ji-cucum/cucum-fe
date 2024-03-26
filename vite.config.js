@@ -13,7 +13,8 @@ export default defineConfig({
   server:{
     proxy:{
       "/api":"http://localhost:3011",
-      "/public-api":"http://localhost:3011"
+      "/public-api":"http://localhost:3011",
+      "/auth/google":"http://localhost:3011"
     }
   },
   resolve: {

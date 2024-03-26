@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const playlist = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/playlist`,
+  baseURL: '/api/playlist'
 })
 
 export const getAllPlaylists = async () => {

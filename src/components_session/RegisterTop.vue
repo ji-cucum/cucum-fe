@@ -8,19 +8,21 @@
         <div class="h-2 bg-indigo-400 rounded-t-md"></div>
         <div class="py-6 px-6">
           <div class="flex items-center justify-center">
-            <button
-             @click="handleGoogleLogin" class="flex-grow px-11 py-2 border flex gap-2 border-slate-500 rounded-lg text-black hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
-            >
-              <div class="flex items-center">
-                <img
-                  class="w-6 h-6 mr-2"
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  loading="lazy"
-                  alt="google logo"
-                />
-                <span>Googleで登録</span>
-              </div>
-            </button>
+            <a href="/auth/google"
+              ><button
+                class="flex-grow px-11 py-2 border flex gap-2 border-slate-500 rounded-lg text-black hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+              >
+                <div class="flex items-center">
+                  <img
+                    class="w-6 h-6 mr-2"
+                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                    loading="lazy"
+                    alt="google logo"
+                  />
+                  <span>Googleで登録</span>
+                </div>
+              </button>
+            </a>
           </div>
           <div class="flex items-center justify-center pt-3">
             <router-link
@@ -41,24 +43,4 @@
 <style></style>
 
 <script setup>
-import axios from 'axios'
-
-// Google 등록 버튼 클릭 시 실행되는 함수
-const handleGoogleLogin = () => {
-  openGoogleLoginWindow();
-  registerWithGoogle();
-}
-
-const openGoogleLoginWindow = () => {
-  window.open('http://localhost:5173/auth/google', '_blank');
-}
-
-const registerWithGoogle = async () => {
-  try {
-    const response = await axios.post('/api/register-googleAccount');
-    console.log(response.data);
-  } catch (error) {
-    console.error('Failed to register with Google:', error);
-  }
-}
 </script>
