@@ -1,7 +1,7 @@
 <template>
-    <CucumNavi />
-  <main class=" dark flex flex-col items-center h-screen" >
+  <main class="dark flex flex-col items-center h-screen" >
     <div class="w-[375px]">
+      <CucumNavi />
       <RouterView />
     </div>
   </main>
