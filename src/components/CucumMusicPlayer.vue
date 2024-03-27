@@ -3,7 +3,6 @@
     <div v-if="videoId" id="player" class="hidden"></div>
     <div>
         <div v-if="playerLoaded">
-            <img v-if="videoId" :src="`https://img.youtube.com/vi/${videoId}/0.jpg`" alt="thumbnail" class="rounded-lg" />
             <div class="p-1 text-[2rem] bg-gradient-to-r from-[#161420] bg-[#363653] to-[#292840]">
                 <div class="flex m-1 gap-1">
                     <div class="w-3 h-3 rounded-full bg-red-500"></div>
@@ -13,7 +12,8 @@
                 <div class="flex gap-2  p-2 border-gray-500 border-2">
                     <div class="flex gap-2 p-2 border-gray-500 border-2">
                         <div class="text-[2rem]">
-                            <div class="w-24 ">
+                            <div class="w-24 flex flex-col">
+                                <img v-if="videoId" class="rounded-lg w-17" :src="`https://img.youtube.com/vi/${videoId}/0.jpg`" alt="thumbnail" />
                                 <div class="bg-black text-[#23eb28] ">
                                 {{ String(currentMinute).padStart(2, '0') + ":" + String(currentSecond).padStart(2, '0') }}
                                 </div>
@@ -39,7 +39,6 @@
                             </div>
 
                             <div class="flex">
-                                <CucumRangeHorizontal :value="currentTime / duration * 100" />
                                 <CucumRangeHorizontal :value="currentTime / duration * 100" />
                             </div>
                         </div>

@@ -1,12 +1,9 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { Menu } from '@/consts/index'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
+export const useMenuStore = defineStore('menu', () => {
+  const selectedTab = ref(Menu.PALY_LIST)
 
-  return { count, doubleCount, increment }
+  return { selectedTab }
 })
