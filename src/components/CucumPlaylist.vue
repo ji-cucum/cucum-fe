@@ -96,8 +96,8 @@ export default {
       console.log(formData)
       const newPlaylist =  await createPlaylist({
         ...formData,
+        creator: 'cucum',
       })
-      console.log(newPlaylist.creater)
       this.playlists.push(newPlaylist)
       form.reset()
     }
