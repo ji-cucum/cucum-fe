@@ -1,7 +1,7 @@
 <template>
   <nav class="bg-white shadow">
     <div class="container mx-auto px-4 flex justify-between items-center">
-      <router-link to="/" class="text-xl font-bold text-gray-800">Cucum</router-link>
+      <h1 class="text-gray-800">Cucum</h1>
       <ul class="flex space-x-4">
         <li>
           <router-link to="/Login" class="text-gray-800 hover:text-blue-600">Log in</router-link>
@@ -12,7 +12,7 @@
           >
         </li>
         <li>
-          <a @click.prevent="logout" class="text-gray-800 hover:text-blue-600">Log out</a>
+          <button @click.prevent="logout" class="text-gray-800 hover:text-blue-600">Log out</button>
         </li>
       </ul>
     </div>
