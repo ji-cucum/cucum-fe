@@ -6,6 +6,7 @@ import LoginMailAdress from '../components_session/LoginMailAdress.vue';
 import RegisterTop from '../components_session/RegisterTop.vue';
 import RegisterMailAdress from '../components_session/RegisterMailAdress.vue';
 import CucumMusicByPlaylist from '../components/CucumMusicByPlaylist.vue';
+import CucumMusicByPlaylistWithoutAddMusic from "@/components/CucumMusicByPlaylistWithoutAddMusic.vue";
 
 const routes = [
   { path: '/', component: CucumMain},
@@ -14,6 +15,7 @@ const routes = [
   { path: '/register', component:RegisterTop},
   { path: '/register-mailAdress', component: RegisterMailAdress},
   { path: '/playlist/:id', component: CucumMusicByPlaylist},
+  { path: '/playlist-public/:id', component: CucumMusicByPlaylistWithoutAddMusic},
 ];
 
 const router = createRouter({

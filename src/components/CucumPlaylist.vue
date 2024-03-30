@@ -5,7 +5,9 @@
     <div class="flex flex-col gap-8">
       <div class="flex flex-col gap-2 overflow-y-scroll h-90">
         <div :key="i" v-for="(playlist,i) of playlists" class="group">
-          <CucumPlaylistRow :playlist="playlist" />
+          <router-link :to="`/playlist-public/${playlist.id}`">
+            <CucumPlaylistRow :playlist="playlist" />
+          </router-link>
         </div>
         <footer>
           <div ref="infiniteScrollTrigger" id="scroll-trigger"></div>

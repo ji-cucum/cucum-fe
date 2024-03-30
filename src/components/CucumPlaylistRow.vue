@@ -1,6 +1,5 @@
 <template>
           <button type="button" class="relative flex items-center justify-between w-full p-4 bg-gray-800 rounded-lg">
-            <router-link :to="`/playlist/${playlist.id}`">
             <div class="flex flex-col items-start justify-between w-full">
               <div class="flex w-full">
                 <div class="flex items-center w-1/3">
@@ -22,7 +21,6 @@
                 </svg>
               </div>
             </div>
-            </router-link>
           </button>
 </template>
 <script>
