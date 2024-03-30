@@ -5,7 +5,7 @@ const playlist = axios.create({
 })
 
 export const getAllPlaylists = async (params) => {
-  const response = await playlist.post('/', params, {
+  const response = await playlist.post('/search', params, {
     headers: {
       'Content-Type': 'application/json' 
     }
