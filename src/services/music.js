@@ -5,7 +5,7 @@ const music = axios.create({
 })
 
 export const getAllMusics = async (params) => {
-  const response = await music.post('/', params, {
+  const response = await music.post('/search', params, {
     headers: {
       'Content-Type': 'application/json' 
     }
@@ -20,6 +20,7 @@ export const getMusic = async (id) => {
 
 export const createMusic = async (params) => {
   const response = await music.post('/', params);
+  console.log(response.data)
   return response.data;
 }
 
@@ -30,5 +31,10 @@ export const updateMusic = async (id) => {
 
 export const deleteMusic = async (id) => {
   const response = await music.delete(`/${id}`);
+  return response.data;
+}
+
+export const searchMusics = async (keyword) => {
+  const response = await music.get(`/search/musics/${keyword}`);
   return response.data;
 }

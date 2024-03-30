@@ -4,7 +4,7 @@ export default  {
             paging: {
                 data: {
                     currentPage: 0,
-                    maxPerPage: 5,
+                    maxPerPage: 12,
                     totalResults: 0,
                 },
                 showLoader: false,

@@ -3,15 +3,15 @@
 
 <!-- Main modal -->
 <div ref="crud-modal" id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[999] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="relative w-full max-w-md max-h-full p-4">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+            <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                     新しい曲を追加
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal" @click="() => { hideModal() }">
+                <button type="button" class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal" @click="() => { hideModal() }">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
@@ -20,48 +20,70 @@
             </div>
             <!-- Modal body -->
             <form class="flex flex-col gap-2 p-4 md:p-5" ref="modalForm">
-                <div class="grid gap-4 mb-4 grid-cols-2">
+                <div class="grid grid-cols-2 gap-4 mb-4">
                     <div class="col-span-2">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">プレイリスト名</label>
-                        <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="プレイリスト名" required="">
-                    </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">説明</label>
-                        <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="説明"></textarea>                    
-                    </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label for="scope" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">公開範囲設定</label>
-                        <select id="scope" name="scope"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option value="public" selected>公開</option>
-                            <option value="private">非公開</option>
-                            <option value="protected">一部公開</option>
-                        </select>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">曲名</label>
+                        <div class="flex gap-2">
+                          <input type="text" ref="searchName" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="プレイリスト名" required="">
+                          <button type="button" class="w-24 p-2 border border-gray-300 rounded-lg" @click="() => { this.searchMusics() }">検索</button>
+                        </div>
                     </div>
                 </div>
-                <img v-if="thumbnailUrl" :src="thumbnailUrl" class="w-full h-64 object-cover rounded-lg" alt="Thumbnail">
-                <div v-if="!thumbnailUrl" class="flex items-center justify-center w-full">
-                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                      @dragover.prevent
-                      @drop="(e) => {
-                        e.preventDefault()
-                        this.uploadFile(e.dataTransfer.files[0])
-                      }"
-                    >
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                            </svg>
-                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                        </div>
-                        <input ref="dropzoneFile" id="dropzone-file" type="file" class="hidden" />
-                    </label>
-                </div> 
-                <input type="hidden" name="thumbnail" ref="thumbnail" />
-                <button type="button" class="text-white inline-flex items-center bg-blue-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-gray-800" @click="formSubmit">
-                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                    作成
+                <div class="grid grid-cols-1 gap-4 mb-4">
+
+                        <div class="flex flex-wrap gap-2">
+
+                <button type="button" class="text-white inline-flex items-center bg-blue-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-gray-800" @click="addMusic">
+                    <svg class="w-5 h-5 me-1 -ms-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                     追加
                 </button>
+                          <div :key="i" v-for="(music, i) in selectedMusics">
+                          <span id="badge-dismiss-indigo" class="inline-flex items-center px-2 py-1 text-sm font-medium text-indigo-800 bg-indigo-100 rounded me-2 dark:bg-indigo-900 dark:text-indigo-300">
+{{ `${music.title}(${music.artists.map(el => el.name).join(",")})` }}
+<button type="button" class="inline-flex items-center p-1 text-sm text-indigo-400 bg-transparent rounded-sm ms-2 hover:bg-indigo-200 hover:text-indigo-900 dark:hover:bg-indigo-800 dark:hover:text-indigo-300" data-dismiss-target="#badge-dismiss-indigo" aria-label="Remove"
+@click="() => { 
+  this.selectedMusics = [...this.selectedMusics.filter(el => el.youtubeId !== music.youtubeId)]
+
+}"
+>
+<svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+</svg>
+<span class="sr-only">Remove badge</span>
+</button>
+</span>
+                          </div>
+                        </div>
+                    <div class="col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">検索結果</label>
+                        <div class="flex flex-col gap-2">
+                          <div :key="i" v-for="(music, i) in filteredMusicList">
+                            <div class="flex items-center justify-between gap-3">
+                              <div>
+                                <img :src="music.thumbnailUrl" alt="music" class="w-6 h-6 rounded-full" />
+                              </div>
+                              <div class="flex flex-col w-60 md:w-40">
+                                <div class="overflow-hidden text-ellipsis text-nowrap">
+                                  {{ music.title }}
+                                </div>
+                                <div class="overflow-hidden text-gray-400 text-ellipsis text-nowrap">
+                                  {{ music.artists.map(el => el.name).join(",") }}
+                                </div>
+                              </div>
+                              <div>
+                                <button type="button" @click="() => { this.selectedMusics = [music, ...this.selectedMusics]}">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 15.5V5s3 1 3 4m-7-3H4m9 4H4m4 4H4m13 2.4c0 1.326-1.343 2.4-3 2.4s-3-1.075-3-2.4 1.343-2.4 3-2.4 3 1.075 3 2.4Z"/>
+    </svg>
+                                </button>
+
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -70,15 +92,23 @@
 
 <script>
 import { Modal } from 'flowbite'
-import { getImagePath } from '@/services/image'
+import { searchMusics } from '@/services/music'
 export default {
   name: 'CucumModal',
   emits: ['exec-crud-modal'],
+  computed: {
+    filteredMusicList() {
+      const self = this
+      return self.searchResult.filter(el => !self.selectedMusics?.includes(el) )
+    }
+  },
   data() {
     return {
       modal: null,
       dropzoneFile: null,
-      thumbnailUrl: null
+      thumbnailUrl: null,
+      searchResult: [],
+      selectedMusics: []
     }
   },
   mounted() {
@@ -91,20 +121,25 @@ export default {
       this.modal.show()
     },
     hideModal() {
-
-    },
-    formSubmit() {
-      this.$emit('exec-crud-modal', this.$refs.modalForm)
       this.modal.hide()
     },
-    async uploadFile(file) {
-      const formData = new FormData()
-      formData.append('file', file)
-      const thumbnailUrl = await getImagePath(formData)
-      this.$refs.thumbnail.value = thumbnailUrl
-      this.thumbnailUrl = thumbnailUrl
-    }
-
+    addMusic() {
+      const musics = [...this.selectedMusics].map(el => {
+        return {
+          title: el.title,
+          artist: el.artists.map(el => el.name).join(","),
+          thumbnail: el.thumbnailUrl,
+          playtime: el.duration.totalSeconds,
+          third_party_key: el.youtubeId,
+        }
+      })
+      this.$emit('add-musics', musics)
+      this.modal.hide()
+    },
+    async searchMusics() {
+      const res = await searchMusics(this.$refs.searchName.value)
+      this.searchResult = res.musics
+    },
   },
 
 }
