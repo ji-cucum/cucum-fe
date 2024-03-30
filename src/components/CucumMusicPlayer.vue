@@ -4,15 +4,15 @@
     <div>
         <div v-if="playerLoaded">
             <div class="p-1 text-[2rem] bg-gradient-to-r from-[#161420] bg-[#363653] to-[#292840]">
-                <div class="flex m-1 gap-1">
-                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                <div class="flex gap-1 m-1">
+                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
                 </div>
-                <div class="flex gap-2  p-2 border-gray-500 border-2">
-                    <div class="flex gap-2 p-2 border-gray-500 border-2">
+                <div class="flex gap-2 p-2 border-2 border-gray-500">
+                    <div class="flex gap-2 p-2 border-2 border-gray-500">
                         <div class="text-[2rem]">
-                            <div class="w-24 flex flex-col">
+                            <div class="flex flex-col w-24">
                                 <img v-if="videoId" class="rounded-lg w-17" :src="`https://img.youtube.com/vi/${videoId}/0.jpg`" alt="thumbnail" />
                                 <div class="bg-black text-[#23eb28] ">
                                 {{ String(currentMinute).padStart(2, '0') + ":" + String(currentSecond).padStart(2, '0') }}
@@ -134,32 +134,33 @@ export default {
       return Math.floor(this.currentTime % 60);
     },
   },
-  mounted() {
+  created() {
     const tag = document.createElement('script');
 
     tag.src = 'https://www.youtube.com/iframe_api';
     const firstScriptTag = document.getElementsByTagName('script')[0];
+    tag.setAttribute('id', 'youtube-iframe-api');
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+  },
+  mounted() {
     window.onYouTubeIframeAPIReady = () => {
       this.createPlayer();
     };
-
-    nextTick(() => {
-    });
   },
     methods: {
       createPlayer() {
         const self = this;
 
+
         this.player = new window.YT.Player('player', {
-        height: '240',
-        width: '360',
-        videoId: this.videoId,
-        events: {
-            onReady: this.onPlayerReady,
-            onStateChange: this.onPlayerStateChange
-        }
+          height: '240',
+          width: '360',
+          videoId: this.videoId,
+          events: {
+              onReady: this.onPlayerReady,
+              onStateChange: this.onPlayerStateChange
+          }
         });
         setInterval(function(){
             const p = self.player;
@@ -181,7 +182,11 @@ export default {
       onPlayerReady() {
         // auto play
         // event.target.playVideo();
-        this.setVideoInfo()
+        // this.setVideoInfo()
+        
+        if (this.player) {
+          this.player.loadVideoById(this.videoId);
+        }
       },
       onPlayerStateChange() {
         this.setVideoInfo()

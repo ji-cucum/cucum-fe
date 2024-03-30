@@ -1,6 +1,6 @@
 <template>
   <nav class="bg-white shadow">
-    <div class="container mx-auto px-4 flex justify-between items-center">
+    <div class="container flex items-center justify-between px-4 mx-auto">
       <router-link to="/" class="text-xl font-bold text-gray-800">Cucum</router-link>
       <ul class="flex space-x-4">
         <li>
@@ -26,6 +26,7 @@ const logout = async () => {
     credentials: 'include'
   }).then((r) => r.json())
   if (res.success) {
+    sessionStorage.clear()
     router.push('/login')
   } else {
     console.error('logout failure', res)
