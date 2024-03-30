@@ -77,7 +77,7 @@ async function handleSubmit() {
 
   } catch (error) {
     console.error(error)
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 501) {
       if (error.response.data && error.response.data.message) {
         errors.value.push({ message: error.response.data.message })
         email.value = "";

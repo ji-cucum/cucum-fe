@@ -38,17 +38,20 @@ export default {
   },
   methods: {
     async fetchPlaylists() {
-      const params = {
+
+      const params = { 
         "sort": "id",
         "order": "desc",
         "offset": this.pageOffset,
-        "limit": this.paging.data.maxPerPage
+        "limit": this.paging.data.maxPerPage,
       }
-      const res = await getAllPlaylists(params)
-      this.playlists = [ ...this.playlists, ...res.items ] 
-      this.paging.data.totalResults = res.meta.total
-      this.paging.data.currentPage++
-
+      console.log(params)
+      const res = await getAllPlaylists( {...params} )
+      if(res && res.items){
+        this.playlists = [ ...this.playlists, ...res.items] 
+        this.paging.data.totalResults = res.meta.total
+        this.paging.data.currentPage++
+      }
     },
     async addPlaylist(form) {
       const formData = Object.fromEntries(new FormData(form))

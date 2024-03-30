@@ -12,7 +12,7 @@
           >
         </li>
         <li>
-          <a @click.prevent="logout" class="text-gray-800 hover:text-blue-600">Log out</a>
+          <button @click.prevent="logout" class="text-gray-800 hover:text-blue-600">Log out</button>
         </li>
       </ul>
     </div>

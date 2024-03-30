@@ -87,7 +87,7 @@ async function handleSubmit() {
 
   if (errors.value.length === 0) {
     try {
-      const response = await axios.post('api/register-mailAdress', {
+      const response = await axios.post('api/register-mail-adress', {
         name: state.value.name,
         email: state.value.email,
         password: state.value.password,
