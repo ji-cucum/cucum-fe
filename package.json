@@ -5,7 +5,7 @@
   "type": "module",
   "proxy": "http://localhost:5500",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "build-rc": "vite build --mode rc",
     "preview": "vite preview",
@@ -17,7 +17,9 @@
     "flowbite": "^2.3.0",
     "node": "^21.7.1",
     "pinia": "^2.1.7",
+    "qrcode": "^1.5.3",
     "vue": "^3.4.21",
+    "vue-qrcode": "^2.2.2",
     "vue-router": "4"
   },
   "devDependencies": {
