@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6" >
+  <div class="flex flex-col gap-6">
     <div>
     </div>
     <div class="flex flex-col gap-8">
@@ -21,7 +21,6 @@
         </footer>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -40,17 +39,16 @@ export default {
   },
   methods: {
     async fetchPlaylists() {
-
-      const params = { 
-        "sort": "id",
-        "order": "desc",
-        "offset": this.pageOffset,
-        "limit": this.paging.data.maxPerPage,
+      const params = {
+        sort: 'id',
+        order: 'desc',
+        offset: this.pageOffset,
+        limit: this.paging.data.maxPerPage
       }
       console.log(params)
-      const res = await getAllPlaylists( {...params} )
-      if(res && res.items){
-        this.playlists = [ ...this.playlists, ...res.items] 
+      const res = await getAllPlaylists({ ...params })
+      if (res && res.items) {
+        this.playlists = [...this.playlists, ...res.items]
         this.paging.data.totalResults = res.meta.total
         this.paging.data.currentPage++
       }
@@ -58,19 +56,33 @@ export default {
     async addPlaylist(form) {
       const formData = Object.fromEntries(new FormData(form))
       console.log(formData)
-      const newPlaylist =  await createPlaylist({
+      const newPlaylist = await createPlaylist({
         ...formData,
         creator: 'cucum',
       })
       this.playlists.push(newPlaylist)
       form.reset()
+    },
+    async generateQRCode() {
+      console.log('動作している')
+      if (this.value === '') {
+        try {
+          const res = await axios.post('/api/generate-qr')
+          this.value = res.data.url
+        } catch (error) {
+          console.error('Error fetching data from backend:', error)
+        }
+      } else {
+        this.value = ''
+      }
     }
   },
   data() {
     return {
       newPlayListModal: null,
       videoId: 'Cd5DgfMT6qg',
-      playlists: []
+      playlists: [],
+      value: ''
     }
   }
 }
